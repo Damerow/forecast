@@ -37,7 +37,6 @@ async function showForecast(url, latlng) {
     console.log(jsondata, latlng);
 }
 
-
 // Marker für eigenen Standort (14.05.2023)
 if ("geolocation" in navigator) {
     navigator.geolocation.getCurrentPosition(position => {
