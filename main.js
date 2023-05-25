@@ -69,3 +69,44 @@ map.on("click", function (evt) {
 map.fireEvent("click", {
     latlng: L.latLng(ibk.lat, ibk.lng)
 })
+
+//  Winddaten laden
+
+async function loadWind(url) {
+    let response = await fetch(url);
+    let jsondata = await response.json();
+    console.log(jsondata);
+
+
+    var velocityLayer = L.velocityLayer({
+        displayValues: true,
+        lineWidth: 2,
+        displayOptions: {
+            // label prefix
+            velocityType: "",
+
+            // leaflet control position
+            position: "bottomright",
+
+            // no data at cursor
+            emptyString: "keine Daten vorhanden",
+
+
+
+            // one of: ['ms', 'k/h', 'mph', 'kt']
+            speedUnit: "k/h",
+
+            // direction label prefix
+            directionString: "Windrichtung",
+
+            // speed label prefix
+            speedString: "Speed",
+        },
+        data: jsondata, // see demo/*.json, or wind-js-server for example data service
+
+    }).addTo(map);
+
+}
+
+loadWind("https://geographie.uibk.ac.at/data/ecmwf/data/wind-10u-10v-europe.json");
+
