@@ -34,24 +34,22 @@ L.control.scale({
 async function showForecast(url, latlng) {
     let response = await fetch(url);
     let jsondata = await response.json();
-    console.log(jsondata, latlng);
+    //console.log(jsondata, latlng);
 
     let current = jsondata.properties.timeseries[0].data.instant.details;
-    console.log(current);
-
+    //console.log(current);
+    let timestamp = new Date (jsondata.properties.meta.updated_at).toLocaleString();
     let markup = `
-    <h4>Aktuelles Wetter für ${latlng.lat.toFixed(4)}, ${latlng.lat.toFixed(4)}</h4>
+    <h4>Aktuelles Wetter für ${latlng.lat.toFixed(4)}, ${latlng.lat.toFixed(4)} <br>(${timestamp})</h4>
     <table>
         <tr><td>Luftdruck (hPa): </td><td>${current.air_pressure_at_sea_level}</td></tr>
         <tr><td>Lufttemperatur (°C): </td><td>${current.air_temperature}</td></tr>
         <tr><td>Bewölkungsgrad (%): </td><td>${current.cloud_area_fraction}</td></tr>
         <tr><td>Rel. Luftfeuchte (%): </td><td>${current.relative_humidity}</td></tr>
-        <tr><td>Niederschlag (mm): </td><td>${current.precipitation_amount}</td></tr>
         <tr><td>Windrichtung (°): </td><td>${current.wind_from_direction}</td></tr>
         <tr><td>Windgeschwindigkeit (m/s): </td><td>${current.wind_speed}</td></tr>
-        
     </table>
-    `;
+        `;
 
     L.popup().setLatLng(latlng).setContent(markup).openOn(map);
 }
