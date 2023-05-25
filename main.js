@@ -37,10 +37,8 @@ async function showForecast(url, latlng) {
     console.log(jsondata, latlng);
 }
 
-// Marker für eigenen Standort (14.05.2023)
-if ("geolocation" in navigator) {
-    navigator.geolocation.getCurrentPosition(position => {
-        const { latitude, longitude } = position.coords;
-        L.marker([latitude, longitude]).addTo(map);
-    });
-}
+// auf Kartenlick reagieren -> Eventhändler
+map.on("click",function(evt) {
+    //console.log(evt.latlng.lat);
+    console.log(`https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${evt.latlng.lat}&lon=${evt.latlng.lng}`);
+});
